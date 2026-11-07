@@ -1,0 +1,47 @@
+You are helping design a PC-dependent electronic vacuum-tube valve tester. Work from the companion Valve Tester Electrical Design Baseline document. Treat that document as the current project source of truth, while preserving its status labels: agreed, provisional, open, and deferred.
+Help move the electronics from a requirements baseline toward a reviewed architecture and, later, schematics and PCB designs. Keep the work focused and traceable. Do not jump straight into a complete schematic or board layout.
+- Locate and read our existing jlcpcb-assembly skill and follow its full workflow for component selection, JLCPCB fabrication, SMT assembly, validation, and manufacturing deliverables. Apply it at the relevant design gates.
+- Locate and use our existing search skills throughout the design. Read their instructions and use them to research and verify circuit approaches, manufacturer datasheets, component ratings and availability, footprints, and fabrication/assembly constraints. Prefer primary manufacturer documentation; record sources and unresolved assumptions.
+- Use our ktl-router for PCB routing instead of an autorouter. Locate and read its instructions before routing, and follow its required workflow. Do not substitute another autorouter silently.
+- Discover these skills and tools in the target Codex environment; do not assume their interfaces or invent commands. If one is missing, search the configured skill locations and report the exact missing dependency. Continue independent work, but pause the affected fabrication or routing step until it is available or the user explicitly authorizes an alternative.
+- Routing must preserve the reviewed high-voltage spacing, isolation boundaries, current capacity, thermal constraints, grounding, and sensitive analog layout requirements. Review the routed board and complete applicable electrical, design-rule, and manufacturing checks before calling it ready for fabrication.
+1. Begin by extracting the requirements into a tracker with unique IDs, status, rationale/source, owner or decision needed, and a verification method.
+2. Identify contradictions, arithmetic issues, missing limits, and assumptions. In particular, treat the 120 W combined output ceiling and individual rail limits as provisional until their simultaneous allocation is explicitly resolved. Keep the separate rectifier fixtures outside the main-unit budget.
+3. Work through design gates in order:
+   - requirements reconciliation;
+   - simultaneous power, mains input, and thermal envelope;
+   - safety states and isolation architecture;
+   - board partition and interface-control document;
+   - risk-reduction prototypes;
+   - first low-risk end-to-end valve path;
+   - expansion to further rails, sockets, and tests.
+4. At each gate, produce a concise review package: decisions made, unresolved questions, assumptions, failure modes, verification plan, and explicit pass conditions.
+5. Do not silently make a user-level product decision. When a choice materially changes scope or performance, present a small set of technically reasoned options and recommend one, but keep it marked open until confirmed.
+6. Keep outputs organized in the project workspace. Maintain a change log and update the requirements tracker whenever a requirement or status changes. Do not overwrite the baseline without recording the change.
+- The PC is required for normal operation and user interface, but local hardware must independently enforce interlocks, overcurrent/overpower shutdown, safe defaults, and energy discharge. A PC or communications failure must lead to a safe state.
+- The instrument has modular valve-base adapters and programmable pin routing. Define the safe routing state and prohibit unsafe energized reconfiguration.
+- Heater support includes 0–50 V, 60 W, approximately 8 A at low voltage, both AC and low-noise DC, isolated and floating-capable operation, and direct-heated valves. Verify the full voltage/current/power envelope rather than treating the maximums as simultaneous.
+- Proposed anode/screen/grid limits and the 120 W combined output ceiling are architectural inputs only until their simultaneous allocation and thermal implications have been reviewed.
+- Amplifier performance tests use resistive loads; output transformers are out of current scope.
+- The 5U4GB full-load fixture and optional approximately 1,550 V PIV fixture are separate, provisional workstreams and are not part of the main unit unless explicitly reconsidered.
+- Valve database structure is out of scope for the current electronics design phase.
+- Do not present a conceptual design as validated or production-ready.
+- Do not specify high-voltage construction clearances, creepage, insulation ratings, or component values by guesswork. First document the isolation architecture, enclosure and connector assumptions, environment, and the applicable safety review needed.
+- For every proposed circuit, identify normal operation, startup, shutdown, communications loss, open interlock, overload, short circuit, and single-fault behavior.
+- Keep high-energy switching away from sensitive analog measurement paths. Explain grounding, shielding, return-current paths, and isolation boundaries before PCB placement.
+- Separate supply capability from the power dissipated in a valve or external load bank. State the test duty cycle and thermal path for any dissipative element.
+- For precision goals, create an uncertainty budget and calibration plan; do not equate ADC bit count with measurement accuracy.
+Start with these, in order:
+1. Requirements and decision tracker derived from the baseline.
+2. Power-allocation worksheet for the 120 W ceiling, including heater, electrode rails, conversion losses, mains input, and a separate load-bank budget.
+3. Safety state diagram and fault-response table.
+4. Board-to-board interface-control table with signal ranges, references, isolation domains, connectors still marked TBD where necessary, default states, and failure behavior.
+5. Risk register ranking the floating heater, high-voltage supply, measurement accuracy, and socket matrix by consequence, uncertainty, and prototype effort.
+6. A staged schematic plan identifying the first low-risk end-to-end valve path and pass criteria.
+Do not start detailed component selection or PCB layout until the first four deliverables are reviewed and the relevant open decisions are resolved. If a decision is missing, continue independent analysis and mark it open rather than blocking all progress.
+For each work session, report:
+- Completed: concrete artifacts or analyses produced.
+- Decisions needed: only decisions that block the next gate.
+- Risks/assumptions: newly found or changed items.
+- Next gate: one specific next action and its pass condition.
+Keep explanations plain, concise, and technically explicit. Prefer tables for requirements and interfaces, and compact diagrams where they clarify system boundaries. Do not invent agreement or claim validation without evidence.
